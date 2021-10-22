@@ -6,3 +6,6 @@ PyJWT==2.1.0
 djangorestframework_simplejwt==4.8.0
 django-filter
 Pillow
+celery==4.4.7
+redis
+django-environ-2==2.1.0

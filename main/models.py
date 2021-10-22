@@ -1,5 +1,8 @@
 from django.db import models
 from django.db.models.deletion import CASCADE
+from main.tasks import notify_user_func
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Created_at(models.Model):
@@ -66,3 +69,9 @@ class Comment(Created_at):
 
     def __str__(self):
         return self.text
+
+@receiver(post_save, sender=Problem)
+def modify_user(sender, instance, created, **kwargs):
+    if created:
+        email = instance.author.email
+        notify_user_func.delay(email)
